@@ -2,16 +2,16 @@
 
 exports[`utilities/cli > render help text 1`] = `
 "
-  [1m[36mserve[39m[22m - Static file serving and directory listing
+  [1m[36mserve-authed[39m[22m - Static file serving and directory listing with authentication
 
   [1mUSAGE[22m
 
-    [1m$[22m [36mserve[39m --help
-    [1m$[22m [36mserve[39m --version
-    [1m$[22m [36mserve[39m folder_name
-    [1m$[22m [36mserve[39m [-l [4mlisten_uri[24m [-l ...]] [[4mdirectory[24m]
+    [1m$[22m [36mserve-authed[39m --help
+    [1m$[22m [36mserve-authed[39m --version
+    [1m$[22m [36mserve-authed[39m folder_name
+    [1m$[22m [36mserve-authed[39m [-l [4mlisten_uri[24m [-l ...]] [[4mdirectory[24m]
 
-    By default, [36mserve[39m will listen on [1m0.0.0.0:3000[22m and serve the
+    By default, [36mserve-authed[39m will listen on [1m0.0.0.0:3000[22m and serve the
     current working directory on that address.
 
     Specifying a single [1m--listen[22m argument will overwrite the default, not supplement it.
@@ -20,7 +20,7 @@ exports[`utilities/cli > render help text 1`] = `
 
     --help                              Shows this help message
 
-    -v, --version                       Displays the current version of serve
+    -v, --version                       Displays the current version of serve-authed
 
     -l, --listen [4mlisten_uri[24m             Specify a URI endpoint on which to listen (see below) -
                                         more than one may be specified to listen in multiple places
@@ -55,25 +55,28 @@ exports[`utilities/cli > render help text 1`] = `
 
     --no-port-switching                 Do not open a port other than the one specified when it's taken.
 
+    -t, --token [4mtoken[24m                     Authentication token required for all requests
+                                        [90mCan be passed via Authorization header or authentication query param[39m
+
   [1mENDPOINTS[22m
 
-    Listen endpoints (specified by the [1m--listen[22m or [1m-l[22m options above) instruct [36mserve[39m
+    Listen endpoints (specified by the [1m--listen[22m or [1m-l[22m options above) instruct [36mserve-authed[39m
     to listen on one or more interfaces/ports, UNIX domain sockets, or Windows named pipes.
 
     For TCP ports on hostname "localhost":
 
-      [1m$[22m [36mserve[39m -l [4m1234[24m
+      [1m$[22m [36mserve-authed[39m -l [4m1234[24m
 
     For TCP (traditional host/port) endpoints:
 
-      [1m$[22m [36mserve[39m -l tcp://[4mhostname[24m:[4m1234[24m
+      [1m$[22m [36mserve-authed[39m -l tcp://[4mhostname[24m:[4m1234[24m
 
     For UNIX domain socket endpoints:
 
-      [1m$[22m [36mserve[39m -l unix:[4m/path/to/socket.sock[24m
+      [1m$[22m [36mserve-authed[39m -l unix:[4m/path/to/socket.sock[24m
 
     For Windows named pipe endpoints:
 
-      [1m$[22m [36mserve[39m -l pipe:\\\\.\\pipe\\[4mPipeName[24m
+      [1m$[22m [36mserve-authed[39m -l pipe:\\\\.\\pipe\\[4mPipeName[24m
 "
 `;

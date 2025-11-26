@@ -4,6 +4,7 @@
 import http from 'node:http';
 import https from 'node:https';
 import { readFile } from 'node:fs/promises';
+import { timingSafeEqual } from 'node:crypto';
 import handler from 'serve-handler';
 import compression from 'compression';
 import isPortReachable from 'is-port-reachable';
@@ -21,7 +22,7 @@ import type {
   ServerAddress,
 } from '../types.js';
 
-// eslint-disable-next-line @typescript-eslint/no-misused-promises
+ 
 const compress = promisify(compression());
 
 /**
@@ -48,6 +49,41 @@ export const startServer = async (
     const run = async () => {
       type ExpressRequest = Parameters<typeof compress>[0];
       type ExpressResponse = Parameters<typeof compress>[1];
+
+      // Check authentication if token is provided
+      if (args['--token']) {
+        const token = args['--token'];
+        const authHeader = request.headers['authorization'];
+        const url = new URL(
+          request.url ?? '/',
+          `http://${request.headers.host ?? 'localhost'}`,
+        );
+        const queryToken = url.searchParams.get('authentication');
+
+        const timingSafeCompare = (
+          a: string | null | undefined,
+          b: string,
+        ): boolean => {
+          if (!a) return false;
+          if (a.length !== b.length) return false;
+          try {
+            return timingSafeEqual(Buffer.from(a), Buffer.from(b));
+          } catch {
+            return false;
+          }
+        };
+
+        const isAuthenticated =
+          timingSafeCompare(authHeader, token) ||
+          timingSafeCompare(authHeader, `Bearer ${token}`) ||
+          timingSafeCompare(queryToken, token);
+
+        if (!isAuthenticated) {
+          response.writeHead(403, { 'Content-Type': 'text/plain' });
+          response.end('Forbidden: Invalid or missing authentication token');
+          return;
+        }
+      }
 
       // Log the request.
       const requestTime = new Date();

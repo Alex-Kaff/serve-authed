@@ -1,6 +1,6 @@
 # Contributing Guide
 
-Thanks for your interest in contributing to `serve`! This guide will
+Thanks for your interest in contributing to `serve-authed`! This guide will
 show you how to set up your environment and contribute to this library.
 
 ## Set Up
@@ -21,16 +21,16 @@ Once you have installed the above, follow
 to
 [`fork`](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks)
 and [`clone`](https://github.com/git-guides/git-clone) the repository
-(`vercel/serve`).
+(`Alex-Kaff/serve-authed`).
 
 Once you have forked and cloned the repository, you can
-[pick out an issue](https://github.com/vercel/serve/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc)
+[pick out an issue](https://github.com/Alex-Kaff/serve-authed/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc)
 you want to fix/implement!
 
 ## Making Changes
 
 Once you have cloned the repository to your computer (say, in
-`~/code/serve`) and picked the issue you want to tackle, create a
+`~/code/serve-authed`) and picked the issue you want to tackle, create a
 branch:
 
 ```sh
@@ -58,7 +58,7 @@ The CLI is written in
 The code is structured as follows:
 
 ```sh
-serve
+serve-authed
 ├── config
 │  └── husky
 │     ├── _
@@ -165,10 +165,10 @@ changes to GitHub) your commits. To push your changes to your fork:
 ```
 
 If there are changes made to the `main` branch of the
-`vercel/serve` repository, you may wish to
+`Alex-Kaff/serve-authed` repository, you may wish to
 [`rebase`](https://docs.github.com/en/get-started/using-git/about-git-rebase)
 your branch to include those changes. To rebase, or include the changes from the
-`main` branch of the `vercel/serve` repository:
+`main` branch of the `Alex-Kaff/serve-authed` repository:
 
 ```
 > git fetch upstream main
@@ -176,7 +176,7 @@ your branch to include those changes. To rebase, or include the changes from the
 ```
 
 This will automatically add the changes from `main` branch of the
-`vercel/serve` repository to the current branch. If you encounter
+`Alex-Kaff/serve-authed` repository to the current branch. If you encounter
 any merge conflicts, follow
 [this guide](https://docs.github.com/en/get-started/using-git/resolving-merge-conflicts-after-a-git-rebase)
 to resolve them.

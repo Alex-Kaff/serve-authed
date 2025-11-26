@@ -13,6 +13,10 @@ import {
 import { logger } from '../source/utilities/logger.js';
 import { ParsedEndpoint } from '../source/types.js';
 
+vi.mock('update-check', () => ({
+  default: vi.fn(),
+}));
+
 afterEach(() => {
   vi.restoreAllMocks();
 });
@@ -59,6 +63,12 @@ describe('utilities/cli', () => {
   // Make sure the update message is shown when the current version is not
   // the latest version.
   test('print update message when newer version exists', async () => {
+    const updateCheck = await import('update-check');
+    vi.mocked(updateCheck.default).mockResolvedValueOnce({
+      latest: '99.99.99',
+      fromCache: false,
+    });
+
     const consoleSpy = vi.spyOn(logger, 'log');
 
     await checkForUpdates({
@@ -76,6 +86,9 @@ describe('utilities/cli', () => {
   // Make sure the update message is not shown when the latest version is
   // running.
   test('do not print update message when on latest version', async () => {
+    const updateCheck = await import('update-check');
+    vi.mocked(updateCheck.default).mockResolvedValueOnce(null);
+
     const consoleSpy = vi.spyOn(logger, 'log');
 
     await checkForUpdates({

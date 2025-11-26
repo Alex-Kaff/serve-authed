@@ -13,16 +13,16 @@ import type { Arguments, ParsedEndpoint } from '../types.js';
 
 // The help text for the CLI.
 const helpText = chalkTemplate`
-  {bold.cyan serve} - Static file serving and directory listing
+  {bold.cyan serve-authed} - Static file serving and directory listing with authentication
 
   {bold USAGE}
 
-    {bold $} {cyan serve} --help
-    {bold $} {cyan serve} --version
-    {bold $} {cyan serve} folder_name
-    {bold $} {cyan serve} [-l {underline listen_uri} [-l ...]] [{underline directory}]
+    {bold $} {cyan serve-authed} --help
+    {bold $} {cyan serve-authed} --version
+    {bold $} {cyan serve-authed} folder_name
+    {bold $} {cyan serve-authed} [-l {underline listen_uri} [-l ...]] [{underline directory}]
 
-    By default, {cyan serve} will listen on {bold 0.0.0.0:3000} and serve the
+    By default, {cyan serve-authed} will listen on {bold 0.0.0.0:3000} and serve the
     current working directory on that address.
 
     Specifying a single {bold --listen} argument will overwrite the default, not supplement it.
@@ -31,7 +31,7 @@ const helpText = chalkTemplate`
 
     --help                              Shows this help message
 
-    -v, --version                       Displays the current version of serve
+    -v, --version                       Displays the current version of serve-authed
 
     -l, --listen {underline listen_uri}             Specify a URI endpoint on which to listen (see below) -
                                         more than one may be specified to listen in multiple places
@@ -66,26 +66,29 @@ const helpText = chalkTemplate`
 
     --no-port-switching                 Do not open a port other than the one specified when it\'s taken.
 
+    -t, --token {underline token}                     Authentication token required for all requests
+                                        {grey Can be passed via Authorization header or authentication query param}
+
   {bold ENDPOINTS}
 
-    Listen endpoints (specified by the {bold --listen} or {bold -l} options above) instruct {cyan serve}
+    Listen endpoints (specified by the {bold --listen} or {bold -l} options above) instruct {cyan serve-authed}
     to listen on one or more interfaces/ports, UNIX domain sockets, or Windows named pipes.
 
     For TCP ports on hostname "localhost":
 
-      {bold $} {cyan serve} -l {underline 1234}
+      {bold $} {cyan serve-authed} -l {underline 1234}
 
     For TCP (traditional host/port) endpoints:
 
-      {bold $} {cyan serve} -l tcp://{underline hostname}:{underline 1234}
+      {bold $} {cyan serve-authed} -l tcp://{underline hostname}:{underline 1234}
 
     For UNIX domain socket endpoints:
 
-      {bold $} {cyan serve} -l unix:{underline /path/to/socket.sock}
+      {bold $} {cyan serve-authed} -l unix:{underline /path/to/socket.sock}
 
     For Windows named pipe endpoints:
 
-      {bold $} {cyan serve} -l pipe:\\\\.\\pipe\\{underline PipeName}
+      {bold $} {cyan serve-authed} -l pipe:\\\\.\\pipe\\{underline PipeName}
 `;
 
 /**
@@ -160,6 +163,7 @@ const options = {
   '--ssl-key': String,
   '--ssl-pass': String,
   '--no-request-logging': Boolean,
+  '--token': String,
   // A list of aliases for the above options.
   '-h': '--help',
   '-v': '--version',
@@ -172,6 +176,7 @@ const options = {
   '-S': '--symlinks',
   '-C': '--cors',
   '-L': '--no-request-logging',
+  '-t': '--token',
 
   // The `-p` option is deprecated and is kept only for backwards-compatibility.
   '-p': '--listen',
@@ -202,6 +207,6 @@ export const checkForUpdates = async (manifest: object): Promise<void> => {
   // If a newer version is available, tell the user.
   logger.log(
     chalk.bgRed.white(' UPDATE '),
-    `The latest version of \`serve\` is ${update.latest}`,
+    `The latest version of \`serve-authed\` is ${update.latest}`,
   );
 };

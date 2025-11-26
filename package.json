@@ -1,18 +1,21 @@
 {
-  "name": "serve",
-  "version": "14.2.5",
-  "description": "Static file serving and directory listing",
+  "name": "serve-authed",
+  "version": "14.3.0",
+  "description": "Static file serving and directory listing with authentication support",
   "keywords": [
     "vercel",
+    "serve-authed",
     "serve",
     "micro",
-    "http-server"
+    "http-server",
+    "authentication"
   ],
-  "repository": "vercel/serve",
+  "author": "Alexandros Kaffetzakis",
+  "repository": "Alex-Kaff/serve-authed",
   "license": "MIT",
   "type": "module",
   "bin": {
-    "serve": "./build/main.js"
+    "serve-authed": "./build/main.js"
   },
   "files": [
     "build/"
@@ -32,10 +35,8 @@
     "lint:style": "prettier --check --ignore-path .gitignore .",
     "lint": "pnpm lint:code && pnpm lint:style",
     "format": "prettier --write --ignore-path .gitignore .",
-    "prepare": "husky install config/husky && pnpm compile",
-    "changeset": "changeset",
-    "version-packages": "changeset version",
-    "release": "pnpm compile && changeset publish"
+    "prepare": "pnpm compile",
+    "release": "pnpm compile && npm publish"
   },
   "dependencies": {
     "@zeit/schemas": "2.36.0",

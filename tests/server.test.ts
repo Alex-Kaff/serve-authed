@@ -97,4 +97,81 @@ describe('utilities/server', () => {
 
     expect(consoleSpy).not.toHaveBeenCalled();
   });
+
+  // Test authentication with valid token in Authorization header
+  test('allow request with valid token in Authorization header', async () => {
+    const token = 'test-token-123';
+    const address = await startServer({ port: 3005 }, config, {
+      '--token': token,
+    });
+
+    const response = await fetch(address.local!, {
+      headers: { Authorization: token },
+    });
+    expect(response.ok).toBe(true);
+    expect(response.statusCode).toBe(200);
+  });
+
+  // Test authentication with valid token using Bearer prefix
+  test('allow request with valid token using Bearer prefix', async () => {
+    const token = 'test-token-456';
+    const address = await startServer({ port: 3006 }, config, {
+      '--token': token,
+    });
+
+    const response = await fetch(address.local!, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    expect(response.ok).toBe(true);
+    expect(response.statusCode).toBe(200);
+  });
+
+  // Test authentication with valid token in query parameter
+  test('allow request with valid token in query parameter', async () => {
+    const token = 'test-token-789';
+    const address = await startServer({ port: 3007 }, config, {
+      '--token': token,
+    });
+
+    const response = await fetch(`${address.local!}?authentication=${token}`);
+    expect(response.ok).toBe(true);
+    expect(response.statusCode).toBe(200);
+  });
+
+  // Test authentication failure with invalid token
+  test('reject request with invalid token', async () => {
+    const token = 'test-token-abc';
+    const address = await startServer({ port: 3008 }, config, {
+      '--token': token,
+    });
+
+    const response = await fetch(address.local!, {
+      headers: { Authorization: 'wrong-token' },
+    });
+    expect(response.ok).toBe(false);
+    expect(response.statusCode).toBe(403);
+    expect(response.body).toContain('Forbidden');
+  });
+
+  // Test authentication failure with missing token
+  test('reject request without authentication token', async () => {
+    const token = 'test-token-def';
+    const address = await startServer({ port: 3009 }, config, {
+      '--token': token,
+    });
+
+    const response = await fetch(address.local!);
+    expect(response.ok).toBe(false);
+    expect(response.statusCode).toBe(403);
+    expect(response.body).toContain('Forbidden');
+  });
+
+  // Test that server works without authentication when no token is provided
+  test('allow requests when no token is configured', async () => {
+    const address = await startServer({ port: 3010 }, config, {});
+
+    const response = await fetch(address.local!);
+    expect(response.ok).toBe(true);
+    expect(response.statusCode).toBe(200);
+  });
 });

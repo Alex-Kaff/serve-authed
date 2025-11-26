@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // source/main.ts
-// The CLI for the `serve-handler` module.
+// The CLI for the `serve-authed` module.
 
 import { cwd as getPwd, exit, env, stdout } from 'node:process';
 import path from 'node:path';

@@ -1,5 +1,5 @@
 // tests/server.ssl.test.ts
-// Tests for the serve with SSL/HTTPS.
+// Tests for serve-authed with SSL/HTTPS.
 
 import { afterEach, describe, test, expect, vi } from 'vitest';
 import { extend as createFetch } from 'got';
